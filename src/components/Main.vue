@@ -2,16 +2,15 @@
   <div>
     <h2>Set parking start time</h2>
     <Select :items="houres" @onChange="setHoure" :selected="selectedHoures" :disabled="isStarted" />
-    :
+    <b>:</b>
     <Select :items="minutes" @onChange="setMinute" :selected="selectedMinute" :disabled="isStarted" />
-    <!-- <p>Selected: {{selectedHoures}}:{{selectedMinute}}</p> -->
 
     <h2>Set price</h2>
     <p>price / time</p>
-    <input type="number" v-model="selectedPrice" :disabled="isStarted" /> / 
-    <input type="number" v-model="selectedPerTime" :disabled="isStarted" />
+    <InputNumber @onInput="setPrice" :value="selectedPrice" :disabled="isStarted" />
+    <b>/</b>
+    <InputNumber @onInput="setPerTime" :value="selectedPerTime" :disabled="isStarted" />
     <Select :items="perType" @onChange="setPricePreType" :disabled="isStarted" />
-    <!-- <p>Set: {{selectedPrice}}/{{selectedPerTime}}{{selectedPerType}}</p> -->
 
     <h2>Ready</h2>
     <div>
@@ -31,6 +30,7 @@
 <script>
 import Select from './Select'
 import Button from './Button'
+import InputNumber from './InputNumber'
 import { HOURES } from '../constants/houres.js'
 import { MINUTES } from '../constants/minutes'
 import dayjs from 'dayjs';
@@ -57,7 +57,8 @@ export default {
   },
   components: {
     Select,
-    Button
+    Button,
+    InputNumber
   },
   created: function() {
     if (!this.isStarted) {
@@ -74,6 +75,12 @@ export default {
     },
     setPricePreType: function(value) {
       this.selectedPerType = value
+    },
+    setPrice: function(value) {
+      this.selectedPrice = value;
+    },
+    setPerTime: function(value) {
+      this.selectedPerTime = value
     },
     toggleIsStarted: function() {
       if (this.selectedPrice === 0) {
@@ -146,5 +153,31 @@ export default {
 <style scoped>
 h3 {
   margin: 40px 0 0;
+}
+
+b {
+  font-size: 2rem;
+  font-weight: normal;
+  display: inline-block;
+  padding: 0 0.3rem;
+}
+
+dl {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 1.5rem;
+}
+
+dl dt {
+  width: 50%;
+  margin-bottom: 2rem;
+  text-align: right;
+}
+dl dd {
+  margin: 0;
+  width: 50%;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  text-align: center;
 }
 </style>
