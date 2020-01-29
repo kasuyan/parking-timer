@@ -18,6 +18,8 @@ export default {
 
 <style scoped>
 select {
+  color: #2c3e50;
+  border: 1px solid #2c3e50;
   width: 6rem;
   height: 3rem;
   line-height: 3rem;
@@ -25,5 +27,10 @@ select {
   text-align: center;
   padding: 0.1rem;
   margin: 0 0.3rem;
+}
+
+select:disabled {
+  color: #ccc;
+  border: 1px solid #ccc;
 }
 </style>

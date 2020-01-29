@@ -15,12 +15,18 @@ export default {
 
 <style scoped>
 button {
+  color: #2c3e50;
+  border: 1px solid #2c3e50;
   width: 10rem;
   height: 3rem;
-  line-height: 3rem;
   font-size: 2rem;
   border-radius: 0.3rem;
-  padding: 0.1rem;
   text-align: center;
+  margin: 0 0.3rem;
+}
+
+button:disabled {
+  color: #ccc;
+  border: 1px solid #ccc;
 }
 </style>

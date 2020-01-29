@@ -15,7 +15,7 @@
     <h2>Ready</h2>
     <div>
       <Button @onClick="toggleIsStarted">{{!isStarted ? 'START' : 'STOP'}}</Button>
-      <!-- <button>Reset</button> -->
+      <Button @onClick="initData" :disabled="isStarted">RESET</Button>
     </div>
     <h2>Results</h2>
     <dl>
@@ -34,6 +34,14 @@ import InputNumber from './InputNumber'
 import { HOURES } from '../constants/houres.js'
 import { MINUTES } from '../constants/minutes'
 import dayjs from 'dayjs';
+import localforage from 'localforage'
+
+const PTLF = localforage.createInstance({
+  driver: localforage.LOCALSTORAGE,
+  name: 'ParkingTimer',
+  storeName: 'saveData',
+  version  : 1
+});
 
 export default {
   name: 'Main',
@@ -61,12 +69,63 @@ export default {
     InputNumber
   },
   created: function() {
-    if (!this.isStarted) {
-      this.selectedHoures = dayjs().$H
-      this.selectedMinute = dayjs().$m
-    }
+    this.getSaveData().then(() => {
+      if (!this.isStarted) {
+        this.selectedHoures = dayjs().$H
+        this.selectedMinute = dayjs().$m
+      } else {
+        this.startTimer()
+      }
+    })
   },
   methods: {
+    setSaveData: function() {
+      PTLF.setItem('saveData', {
+        selectedHoures: this.selectedHoures,
+        selectedMinute: this.selectedMinute,
+        selectedPrice: this.selectedPrice,
+        selectedPerTime: this.selectedPerTime,
+        selectedPerType: this.selectedPerType,
+        isStarted: this.isStarted,
+        startedTime: this.startedTime
+      })
+    },
+    getSaveData:async function() {
+      await PTLF.getItem('saveData').then((saveData) => {
+        if(!saveData) {
+          return null
+        }
+        this.selectedHoures = saveData.selectedHoures
+        this.selectedMinute = saveData.selectedMinute
+        this.selectedPrice = saveData.selectedPrice
+        this.selectedPerTime = saveData.selectedPerTime
+        this.selectedPerType = saveData.selectedPerType
+        this.isStarted = saveData.isStarted
+        this.startedTime = saveData.startedTime
+      })
+    },
+    clearSaveData: function() {
+      PTLF.clear();
+    },
+    initData: function () {
+      this.stopTimer()
+      this.houres= HOURES
+      this.selectedHoures = dayjs().$H
+      this.minutes= MINUTES
+      this.selectedMinute = dayjs().$m
+      this.selectedPrice= 100
+      this.selectedPerTime= 1
+      this.perType= ['H',"M"]
+      this.selectedPerType= 'H'
+      this.isStarted= false
+      this.timer= null
+      this.startedTime= 0
+      this.endedTime= 0
+      this.totalParkingTime= '00:00:00'
+      this.totalPrice= 0
+
+      this.clearSaveData();
+    },
     setHoure: function(value) {
       this.selectedHoures = value
     },
@@ -96,13 +155,15 @@ export default {
       this.isStarted = !this.isStarted;
 
       if(this.isStarted) {
+        this.startedTime = dayjs(`${dayjs().year()}-${dayjs().month()+1}-${dayjs().date()}T${this.selectedHoures}:${this.selectedMinute}:${dayjs().second()}`).unix()
+        this.setSaveData()
         this.startTimer()
       } else {
+        this.clearSaveData();
         this.stopTimer()
       }
     },
     startTimer: function() {
-      this.startedTime = dayjs(`${dayjs().year()}-${dayjs().month()+1}-${dayjs().date()}T${this.selectedHoures}:${this.selectedMinute}:${dayjs().second()}`).unix()
       this.startInterval();
     },
     stopTimer: function() {
@@ -125,6 +186,7 @@ export default {
       const mm = Math.floor(diffTime / 60)
       const hh = Math.floor(diffTime / (60 * 60))
 
+      console.log('ss', diffTime, this.startedTime, dayjs().unix(), ss)
       this.totalParkingTime = `
         ${String(hh).length > 1 ? hh : '0'+hh}:${String(mm).length > 1 ? mm : '0' + mm}:${String(ss).length > 1 ? ss : '0'+ ss}
       `

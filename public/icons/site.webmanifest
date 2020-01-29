@@ -1,6 +1,7 @@
 {
     "name": "ParkingTimer",
-    "short_name": "PT",
+    "short_name": "ParkingTimer",
+    "description": "This is PWA app. You can Check parking time and price on offline :D",
     "icons": [
         {
             "src": "/icons/android-chrome-192x192.png",
@@ -13,8 +14,8 @@
             "type": "image/png"
         }
     ],
-    "theme_color": "#d6f3fd",
-    "background_color": "#d6f3fd",
+    "theme_color": "#fff",
+    "background_color": "#fff",
     "display": "standalone",
     "start_url": "/"
 }
