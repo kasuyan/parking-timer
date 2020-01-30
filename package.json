@@ -6,7 +6,8 @@
     "serve": "vue-cli-service serve",
     "build:dev": "vue-cli-service build",
     "build:prd": "vue-cli-service build --mode production",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "deploy": "yarn build:prd && gh-pages -d dist"
   },
   "dependencies": {
     "core-js": "^3.4.4",
@@ -21,6 +22,7 @@
     "babel-eslint": "^10.0.3",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
+    "gh-pages": "^2.2.0",
     "vue-template-compiler": "^2.6.10",
     "workbox-webpack-plugin": "^5.0.0"
   },

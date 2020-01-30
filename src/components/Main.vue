@@ -5,8 +5,7 @@
     <b>:</b>
     <Select :items="minutes" @onChange="setMinute" :selected="selectedMinute" :disabled="isStarted" />
 
-    <h2>Set price</h2>
-    <p>price per time</p>
+    <h2>Set price per time</h2>
     <InputNumber @onInput="setPrice" :value="selectedPrice" :disabled="isStarted" />
     <b>/</b>
     <InputNumber @onInput="setPerTime" :value="selectedPerTime" :disabled="isStarted" />
