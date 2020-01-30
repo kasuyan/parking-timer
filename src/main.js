@@ -8,6 +8,7 @@ new Vue({
 }).$mount('#app')
 
 if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("/sw.js")
+  const swPath = process.env.VUE_APP_ASSETS_PATH + 'sw.js'
+  navigator.serviceWorker.register(swPath)
   .catch(() => {})
 }
