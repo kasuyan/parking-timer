@@ -23,6 +23,7 @@ button {
   border-radius: 0.3rem;
   text-align: center;
   margin: 0 0.3rem;
+  background-color: #fff;
 }
 
 button:disabled {

@@ -6,11 +6,11 @@
     <Select :items="minutes" @onChange="setMinute" :selected="selectedMinute" :disabled="isStarted" />
 
     <h2>Set price</h2>
-    <p>price / time</p>
+    <p>price per time</p>
     <InputNumber @onInput="setPrice" :value="selectedPrice" :disabled="isStarted" />
     <b>/</b>
     <InputNumber @onInput="setPerTime" :value="selectedPerTime" :disabled="isStarted" />
-    <Select :items="perType" @onChange="setPricePreType" :disabled="isStarted" />
+    <Select :items="perType" @onChange="setPricePreType" :selected="selectedPerType" :disabled="isStarted" />
 
     <h2>Ready</h2>
     <div>
@@ -95,10 +95,10 @@ export default {
         if(!saveData) {
           return null
         }
-        this.selectedHoures = saveData.selectedHoures
-        this.selectedMinute = saveData.selectedMinute
-        this.selectedPrice = saveData.selectedPrice
-        this.selectedPerTime = saveData.selectedPerTime
+        this.selectedHoures = Number(saveData.selectedHoures)
+        this.selectedMinute =  Number(saveData.selectedMinute)
+        this.selectedPrice =  Number(saveData.selectedPrice)
+        this.selectedPerTime =  Number(saveData.selectedPerTime)
         this.selectedPerType = saveData.selectedPerType
         this.isStarted = saveData.isStarted
         this.startedTime = saveData.startedTime
@@ -108,7 +108,9 @@ export default {
       PTLF.clear();
     },
     initData: function () {
+      console.log('initData')
       this.stopTimer()
+
       this.houres= HOURES
       this.selectedHoures = dayjs().$H
       this.minutes= MINUTES
@@ -213,8 +215,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
+h2 {
+  margin: 2rem 0 1rem;
 }
 
 b {
@@ -228,6 +230,7 @@ dl {
   display: flex;
   flex-wrap: wrap;
   font-size: 1.5rem;
+  margin: 0;
 }
 
 dl dt {
