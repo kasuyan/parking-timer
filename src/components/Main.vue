@@ -184,10 +184,9 @@ export default {
       }
 
       const ss = diffTime % 60
-      const mm = Math.floor(diffTime / 60)
+      const mm = Math.floor(diffTime / 60 ) % 60;
       const hh = Math.floor(diffTime / (60 * 60))
 
-      console.log('ss', diffTime, this.startedTime, dayjs().unix(), ss)
       this.totalParkingTime = `
         ${String(hh).length > 1 ? hh : '0'+hh}:${String(mm).length > 1 ? mm : '0' + mm}:${String(ss).length > 1 ? ss : '0'+ ss}
       `
