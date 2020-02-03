@@ -185,10 +185,14 @@ export default {
 
       const ss = diffTime % 60
       const mm = Math.floor(diffTime / 60 ) % 60;
-      const hh = Math.floor(diffTime / (60 * 60))
+      const hh = Math.floor(diffTime / (60 * 60)) % 24;
+      const dd = Math.floor(diffTime / (60 * 60 * 24 ))
 
       this.totalParkingTime = `
-        ${String(hh).length > 1 ? hh : '0'+hh}:${String(mm).length > 1 ? mm : '0' + mm}:${String(ss).length > 1 ? ss : '0'+ ss}
+        ${dd}D 
+        ${String(hh).length > 1 ? hh : '0'+hh}:
+        ${String(mm).length > 1 ? mm : '0' + mm}:
+        ${String(ss).length > 1 ? ss : '0'+ ss}
       `
 
       if (this.selectedPerType === "H") {
@@ -232,13 +236,13 @@ dl {
 }
 
 dl dt {
-  width: 50%;
+  width: 40%;
   margin-bottom: 2rem;
   text-align: right;
 }
 dl dd {
   margin: 0;
-  width: 50%;
+  width: 60%;
   margin-bottom: 2rem;
   font-size: 2rem;
   text-align: center;
